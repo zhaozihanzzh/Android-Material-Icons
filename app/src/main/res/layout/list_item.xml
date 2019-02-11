@@ -3,16 +3,17 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:minHeight="?android:attr/listPreferredItemHeightSmall"
-    android:paddingLeft="?android:attr/listPreferredItemPaddingLeft"
-    android:paddingRight="?android:attr/listPreferredItemPaddingRight"
+    android:minHeight="48dip"
+    android:paddingLeft="16dip"
+    android:paddingRight="16dip"
     android:gravity="center_vertical">
 
     <TextView
         android:id="@+id/text1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceListItemSmall"
+		android:textColor="#ff000000"
+        android:textAppearance="?android:attr/textAppearanceMedium"
         android:gravity="center_vertical"
         android:layout_weight="1" />
 

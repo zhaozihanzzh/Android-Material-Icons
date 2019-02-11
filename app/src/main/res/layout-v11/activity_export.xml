@@ -120,6 +120,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:gravity="center"
+                android:background="?android:selectableItemBackground"
                 android:layout_weight="1">
 
                 <View
@@ -144,6 +145,7 @@
                 android:mode="twoLine"
                 android:layout_margin="10dp"
                 android:layout_weight="1"
+                android:background="?android:selectableItemBackground"
                 android:clickable="true">
 
                 <TextView
@@ -182,6 +184,7 @@
                 android:id="@+id/start_export_button"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="?android:selectableItemBackground"
                 android:clickable="true"
                 android:layout_alignBottom="@+id/text" />
 

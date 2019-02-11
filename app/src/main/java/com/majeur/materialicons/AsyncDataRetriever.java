@@ -1,24 +1,13 @@
 package com.majeur.materialicons;
 
-import android.content.Context;
-import android.content.res.AssetManager;
-import android.os.AsyncTask;
-import android.util.Log;
-import android.widget.Toast;
-
-import com.afollestad.materialdialogs.MaterialDialog;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import android.app.*;
+import android.content.*;
+import android.content.res.*;
+import android.util.*;
+import android.widget.*;
+import java.io.*;
+import java.util.*;
+import org.json.*;
 
 /**
  * This class is used to retrieve icons and keep local copies up to date.
@@ -30,7 +19,7 @@ import java.util.List;
  * On the server files are in the same folder, to get download url, we just need the file name, then
  * we format it with the "folder" url.
  */
-public class AsyncDataRetriever extends AsyncTask<Void, String, AsyncDataRetriever.Result> {
+public class AsyncDataRetriever extends AsyncTaskICS<Void, String, AsyncDataRetriever.Result> {
 
     private static final String TAG = "DataAsyncTask";
 
@@ -41,7 +30,7 @@ public class AsyncDataRetriever extends AsyncTask<Void, String, AsyncDataRetriev
     private static final String JSON_ARG_NAME = "name";
 
     private Context mContext;
-    private MaterialDialog mDialog;
+    private ProgressDialog mDialog;
     private OnDataLoadedListener mListener;
 
     private File mIconsDirectory;
@@ -58,21 +47,15 @@ public class AsyncDataRetriever extends AsyncTask<Void, String, AsyncDataRetriev
         mContext = context;
         mListener = loadedListener;
 
-        mDialog = new MaterialDialog.Builder(context)
-                .progressIndeterminateStyle(false)
-                .progress(true, 0)
-                .content("")
-                .cancelable(false)
-                .positiveText(android.R.string.cancel)
-                .callback(new MaterialDialog.ButtonCallback() {
-                    @Override
-                    public void onPositive(MaterialDialog dialog) {
-                        super.onPositive(dialog);
-                        cancel(false); // Cancel but don't interrupt, we still want already downloaded icons
-                    }
-                })
-                .build();
-
+        mDialog = new ProgressDialog(context);
+                mDialog.setCancelable(false);
+		        mDialog.setButton(ProgressDialog.BUTTON_NEGATIVE,Resources.getSystem().getString(android.R.string.cancel),new DialogInterface.OnClickListener(){
+				@Override
+				public void onClick(DialogInterface p1, int p2) {
+                    cancel(false); // Cancel but don't interrupt, we still want already downloaded icons
+				}
+			});
+		
         mIconsDirectory = new File(context.getFilesDir().getAbsolutePath() + MainActivity.ICONS_PATH);
         if (!mIconsDirectory.exists())
             // Create local icons directory
@@ -83,6 +66,7 @@ public class AsyncDataRetriever extends AsyncTask<Void, String, AsyncDataRetriev
     protected void onPreExecute() {
         super.onPreExecute();
         mDialog.show();
+		
     }
 
     @Override

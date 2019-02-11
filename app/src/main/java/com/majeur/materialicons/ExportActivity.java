@@ -1,33 +1,19 @@
 package com.majeur.materialicons;
 
-import android.content.res.TypedArray;
-import android.graphics.Color;
-import android.os.Bundle;
-import android.os.Environment;
-import android.support.annotation.NonNull;
-import android.support.v7.app.ActionBarActivity;
-import android.view.Gravity;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.BaseAdapter;
-import android.widget.CheckBox;
-import android.widget.GridView;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.RadioButton;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.app.*;
+import android.content.res.*;
+import android.graphics.*;
+import android.os.*;
+import android.support.annotation.*;
+import android.support.v7.app.*;
+import android.util.*;
+import android.view.*;
+import android.widget.*;
+import java.io.*;
+import java.util.*;
+import net.rdrei.android.dirchooser.*;
 
-import com.afollestad.materialdialogs.MaterialDialog;
-
-import net.rdrei.android.dirchooser.DirectoryChooserFragment;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import android.support.v7.app.AlertDialog;
 
 public class ExportActivity extends ActionBarActivity implements DirectoryChooserFragment.OnFragmentInteractionListener {
 
@@ -37,7 +23,7 @@ public class ExportActivity extends ActionBarActivity implements DirectoryChoose
             R.id.checkbox_mdpi, R.id.checkbox_hdpi, R.id.checkbox_xhdpi,
             R.id.checkbox_xxhdpi, R.id.checkbox_xxxhdpi};
 
-    private List<String> mAssetsFiles;
+    private List<String> mAssetsFiles = new ArrayList<>();
     private int mColor = Color.DKGRAY;
 
     private View mColorPreview;
@@ -50,7 +36,7 @@ public class ExportActivity extends ActionBarActivity implements DirectoryChoose
         setContentView(R.layout.activity_export);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        mAssetsFiles = Arrays.asList(getIntent().getStringArrayExtra(EXTRA_SELECTED_ITEMS));
+        mAssetsFiles.addAll(Arrays.asList(getIntent().getStringArrayExtra(EXTRA_SELECTED_ITEMS)));
 
         View colorButton = findViewById(R.id.color_button);
         colorButton.setOnClickListener(mColorClickListener);
@@ -100,6 +86,7 @@ public class ExportActivity extends ActionBarActivity implements DirectoryChoose
                     Utils.svgFileNameToLabel(mAssetsFiles.remove(position)) + " " + getString(R.string.removed),
                     Toast.LENGTH_SHORT)
                     .show();
+	   
             mListAdapter.notifyDataSetChanged();
             return true;
         }
@@ -134,10 +121,10 @@ public class ExportActivity extends ActionBarActivity implements DirectoryChoose
                 }
             });
 
-            final MaterialDialog dialog = new MaterialDialog.Builder(ExportActivity.this)
-                    .title(R.string.material_colors)
-                    .customView(gridView, false)
-                    .negativeText(android.R.string.cancel)
+            final AlertDialog dialog = new AlertDialog.Builder(ExportActivity.this)
+                    .setTitle(R.string.material_colors)
+                    .setView(gridView)
+                    .setNegativeButton(android.R.string.cancel, null)
                     .show();
 
             gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -154,7 +141,7 @@ public class ExportActivity extends ActionBarActivity implements DirectoryChoose
     private View.OnClickListener mPathClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            mDialog.show(getFragmentManager(), null);
+            mDialog.show(getSupportFragmentManager(), null);
         }
     };
 
@@ -190,10 +177,10 @@ public class ExportActivity extends ActionBarActivity implements DirectoryChoose
         params.path = mPathTextView.getText().toString();
         params.saveType = getSaveType();
 
-        final MaterialDialog dialog = new MaterialDialog.Builder(this)
-                .content("")
-                .progress(false, 100, true)
-                .build();
+        final ProgressDialog dialog = new ProgressDialog(this);
+                dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+                dialog.setProgress(100);
+                
 
         new AsyncExporter(this, new AsyncExporter.ExportStateCallbacks() {
             @Override
@@ -203,18 +190,18 @@ public class ExportActivity extends ActionBarActivity implements DirectoryChoose
 
             @Override
             public void onExportProgressUpdate(AsyncExporter.Progress progress) {
-                dialog.setMaxProgress(progress.totalProgress);
-                dialog.setProgress(progress.currentProgress);
+                // dialog.setMaxProgress(progress.totalProgress);
+                dialog.setProgress((int)(((float)progress.currentProgress/(float)progress.totalProgress)*100));
                 dialog.setMessage(progress.currentDensity + "\n" + progress.currentFileName);
             }
 
             @Override
             public void onPostExport(final File resultDirectory) {
                 dialog.dismiss();
-                new MaterialDialog.Builder(ExportActivity.this)
-                        .title(R.string.success)
-                        .content(R.string.icons_exported_correctly)
-                        .negativeText(android.R.string.ok)
+                new AlertDialog.Builder(ExportActivity.this)
+                        .setTitle(R.string.success)
+                        .setMessage(R.string.icons_exported_correctly)
+                        .setNegativeButton(android.R.string.ok, null)
                         .show();
             }
         }).execute(params);
@@ -251,7 +238,7 @@ public class ExportActivity extends ActionBarActivity implements DirectoryChoose
 
             public Holder(View view) {
                 imageView = (ImageView) view.findViewById(R.id.image1);
-                imageView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+                if (Build.VERSION.SDK_INT > 10) imageView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
                 textView = (TextView) view.findViewById(R.id.text1);
             }
         }

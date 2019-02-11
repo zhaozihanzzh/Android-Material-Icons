@@ -15,7 +15,7 @@
 
     <string name="readme_msg">Thanks for using Material Icons android app.</string>
 
-    <string name="about_msg">This is unofficial android application of <a>https://materialdesignicons.com</a>.\n\nLicense:\nCommunity Icons - SIL Open Font License 1.1\nGoogle Material Design Icons - Attribution 4.0 International\nApplication - Apache 2.0\n\nSource code : <a>https://github.com/MajeurAndroid/Android-Material-Icons</a>\nDeveloped by Majeur.</string>
+    <string name="about_msg">This is unofficial android application of <a>https://materialdesignicons.com</a>.\n\nLicense:\nCommunity Icons - SIL Open Font License 1.1\nGoogle Material Design Icons - Attribution 4.0 International\nApplication - Apache 2.0\n\nSource code : <a>https://github.com/zhaozihanzzh/Android-Material-Icons/tree/gingerbread</a>\nDeveloped by Majeur.\nCompatible with Android 2.3 by ME Failed Coder.</string>
     <string name="no_density_selected">No density selected</string>
     <string name="success">Success</string>
     <string name="icons_exported_correctly">Icons correctly exported !</string>
@@ -23,4 +23,17 @@
     <string name="data_task_msg_1">Checking if local data is up to date …</string>
     <string name="data_task_msg_2" formatted="false">Downloading new icons … (%d/%d)</string>
     <string name="data_task_msg_3">Updating local data …</string>
+ 
+
+    <string name="cancel_label">Cancel</string>
+    <string name="confirm_label">Confirm</string>
+    <string name="selected_folder_label">Selected folder:</string>
+    <string name="create_folder_label">Create folder</string>
+    <string name="create_folder_msg">Create new folder with name "%1$s"?</string>
+    <string name="create_folder_success">Created new folder</string>
+    <string name="create_folder_error_no_write_access">Cannot write to this folder</string>
+    <string name="create_folder_error_already_exists">Folder already exists</string>
+    <string name="create_folder_error">Could not create folder</string>
+    <string name="up_label">Up</string>
+
 </resources>

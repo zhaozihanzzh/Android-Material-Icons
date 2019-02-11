@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
+import android.os.*;
 
 public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
@@ -92,7 +93,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
             view = (CardView) itemView;
             titleView = (TextView) itemView.findViewById(R.id.name);
             iconView = (SVGView) itemView.findViewById(R.id.icon);
-            iconView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+			if (Build.VERSION.SDK_INT > 10) iconView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
 
             mListener = listener;
 

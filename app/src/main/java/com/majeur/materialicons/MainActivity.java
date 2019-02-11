@@ -4,15 +4,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.view.ActionMode;
+import android.support.v7.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.afollestad.materialdialogs.MaterialDialog;
-
 import java.util.List;
+import android.support.v7.app.*;
 
 
 public class MainActivity extends ActionBarActivity implements Adapter.ItemsClickListener, ActionMode.Callback {
@@ -105,15 +104,15 @@ public class MainActivity extends ActionBarActivity implements Adapter.ItemsClic
     }
 
     private void showInfoDialog() {
-        new MaterialDialog.Builder(this)
-                .title(R.string.action_about)
-                .customView(R.layout.about_dialog_message, true)
-                .negativeText(android.R.string.cancel)
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.action_about)
+                .setView(R.layout.about_dialog_message)
+                .setNegativeButton(android.R.string.cancel, null)
                 .show();
     }
 
     private void startSelectionActionMode() {
-        mActionMode = startActionMode(this);
+        mActionMode = startSupportActionMode(this);
         mActionMode.setTitle(R.string.action_export);
     }
 
